@@ -1,91 +1,84 @@
-let myPiece;
-let sound;
-let gameStarted;
+let beginButton;
+
+let infoScreen;
+let startScreen;
+let screenColour;
+let test;
+
+let b;
+
+let img;
+function preload() {
+  img = loadImage("goals.png");
+}
 
 function setup() {
-  createCanvas(canvasW, canvasH);
-  myPiece = new Piece(
-    piece_L,
-    canvasW / 2 - boxDimension * 2,
-    boxDimension * 3,
-    colors[2]
-  );
-  setInterval(() => applyGravity(), timer);
-  sound = false;
-  gameStarted = true;
+  canvas = createCanvas(canvasW, canvasH);
+  beginButton = new Button("Begin", canvasW / 2 - buttonW / 2, canvasH - 200);
+  ballButton = new Button("Start", canvasW / 2 - buttonW / 2, canvasH - 80);
+  infoScreen = true;
+  startScreen = false;
+  screenColour = {r: 0, g: 0, b: 0};
+
+  //test = new Population(300); //create a new population with 1000 me
+  b = new Ball()
 }
 
 function draw() {
-  //The background of game
-  if (gameStarted) {
-    background(44);
-    stroke(130);
-    fill(70);
-    strokeWeight(boxDimension);
-    rect(
-      boxDimension / 2,
-      boxDimension / 2,
-      canvasW - boxDimension,
-      canvasH - boxDimension
-    );
-    stroke(255);
-    noFill();
-    strokeWeight(7);
-    rect(0, 0, canvasW, canvasH);
-    strokeWeight(2);
-    stroke(5);
-    fill(35);
-    rect(
-      boxDimension * 5,
-      canvasH - 21 * boxDimension - 1,
-      boxDimension * 10,
-      boxDimension * 20
-    );
+  background(screenColour.r, screenColour.g, screenColour.b);
+  b.show()
+  b.update()
 
-    //reset stroke
-    stroke(0);
-    strokeWeight(2);
+  //infoScreen
+  if (infoScreen) {
+    textSize(24);
+    fill(255);
+    text(infoMessage, 50, 60, 400, 500);
+    screenColour = {r: 44, g: 44, b: 44};
+    beginButton.show();
+    img.resize(50, 25);
+  }
 
-    myPiece.show();
+  //defenderScreen
+  else if (startScreen)
+  {
+    screenColour = {r: 0, g: 120, b: 0};
+    ballButton.show();
+    textSize(24);
+    fill(255);
+    text(defenceMessage, 50, 60, 400, 500);
+    image(img, canvasW - 100, 50);
+  }
+  //gamescreen
+  else
+  {
+    image(img, canvasW - 100, 50);
+    //draw defenders(s)
+    
+    fill(0, 0, 255);
+    rect(200, 300, 200, 10);
+
+    if (test.allballsDead())
+    {
+      //genetic algorithm
+      test.calculateFitness();
+      test.naturalSelection();
+      test.mutateDemBabies();
+    }
+    else
+    {
+      test.update();
+      test.show();
+    }
   }
 }
 
-let applyGravity = () => {
-  myPiece.y += boxDimension;
-};
-
-function keyPressed() {
-  if (keyCode === UP_ARROW) myPiece.rotation();
-
-  if (keyCode === RIGHT_ARROW && !myPiece.canCollide(box => box.x + boxDimension === width)
-  && !platform.piecesColliding(currentPiece, (rect1, rect2) =>
-  rectCollision(rect1, rect2), (box) => box.x += boxDimension))
-  myPiece.x += boxDimension;
-  myPiece.y -= boxDimension;
-
-  if (keyCode === LEFT_ARROW && !myPiece.canCollide(box => box.x === begginingPoint)
-  && !platform.piecesColliding(myPiece, (rect1, rect2) =>
-  rectCollision(rect1, rect2), (box) => box.x -= boxDimension))
-  myPiece.x -= boxDimension;
-  myPiece.y -= boxDimension;
-
-  if (keyCode === DOWN_ARROW) applyGravity();
-  applyGravity();
-  applyGravity();
-}
-
-let mySound;
-function preload() {
-  soundFormats("mp3", "ogg");
-  mySound = loadSound("Original Tetris theme (Tetris Soundtrack).mp3");
-}
-
 function mousePressed() {
-  if (sound) {
-    mySound.stop();
-    sound = false;
-  } else {
-    mySound.play();
-    sound = true;
+  if (beginButton.hovered()) {
+    startScreen = true;
+    infoScreen = false;
+  }
+  if (ballButton.hovered()) {
+    startScreen = false;
   }
 }
