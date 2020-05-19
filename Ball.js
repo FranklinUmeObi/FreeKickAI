@@ -2,7 +2,7 @@ class Ball {
 
   constructor(goal = {})
   {
-    this.pos = createVector(canvasW/2 - 100, canvasH-50);
+    this.pos = createVector(canvasW/2 - 200, canvasH-50);
     this.vel = createVector(0, 0);
     this.acc = createVector(0, 0);
     this.brain = new Brain(1000);
@@ -16,7 +16,7 @@ class Ball {
   //draws the dot on the screen
   show()
   {
-    strokeWeight(0.5)
+    strokeWeight(1)
     //if this dot is the best dot from the previous generation then draw it as a big gold dot
     if (this.isBest)
     {
@@ -52,17 +52,20 @@ class Ball {
 
   //-------------------------------------------------------------------------------------------------------------------
   //calls the move function and check for collisions and stuff
-  update() {
-    if (!this.dead && !this.reachedGoal)
+  update()
+  {
+    if (true)
     {
       this.move();
-      if (this.pos.x< 2|| this.pos.y<2 || this.pos.x>canvasW-2 || this.pos.y>canvasH -2) {
+      if (this.pos.x< 5|| this.pos.y<5 || this.pos.x>canvasW-5 || this.pos.y>canvasH -5) {
         this.dead = true;
       }
       else if (dist(this.pos.x, this.pos.y, goalX, goalY) < 5)
       {
         this.reachedGoal = true;
       }
+
+      //collision with defender
     //  else if (this.pos.x< 600 && this.pos.y < 310 && this.pos.x > 0 && this.pos.y > 300)
     //  {
     //    this.dead = true;

@@ -20,14 +20,18 @@ function setup() {
   startScreen = false;
   screenColour = {r: 0, g: 0, b: 0};
 
-  //test = new Population(300); //create a new population with 1000 me
+  test = new Population(300); //create a new population with 1000
   b = new Ball()
 }
 
 function draw() {
   background(screenColour.r, screenColour.g, screenColour.b);
-  b.show()
-  b.update()
+  //b.show()
+  //b.move()
+  //b.update()
+
+  test.update();
+  test.show();
 
   //infoScreen
   if (infoScreen) {
@@ -54,10 +58,10 @@ function draw() {
   {
     image(img, canvasW - 100, 50);
     //draw defenders(s)
-    
+
     fill(0, 0, 255);
     rect(200, 300, 200, 10);
-
+/*
     if (test.allballsDead())
     {
       //genetic algorithm
@@ -70,6 +74,7 @@ function draw() {
       test.update();
       test.show();
     }
+    */
   }
 }
 

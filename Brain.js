@@ -17,8 +17,8 @@ class Brain {
     var i
     for (i = 0; i< this.directions.length; i++)
     {
-      var randomAngle = Math.floor(Math.random() * PI-2) +2;
-      this.directions[i] = p5.Vector.fromAngle(radians(randomAngle))
+      var randomAngle = Math.floor(Math.random() * PI*2) ;
+      this.directions[i] = p5.Vector.fromAngle(randomAngle)
     }
   }
 
