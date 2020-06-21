@@ -30,8 +30,6 @@ function draw() {
   //b.move()
   //b.update()
 
-  test.update();
-  test.show();
 
   //infoScreen
   if (infoScreen) {
@@ -61,6 +59,9 @@ function draw() {
 
     fill(0, 0, 255);
     rect(200, 300, 200, 10);
+
+      test.update();
+      test.show();
 /*
     if (test.allballsDead())
     {
